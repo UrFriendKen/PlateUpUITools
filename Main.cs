@@ -1,14 +1,10 @@
 ﻿using HarmonyLib;
-using Kitchen;
-using KitchenData;
 using KitchenMods;
-using System.Collections.Generic;
 using System.Reflection;
-using UITools.Patches;
 using UnityEngine;
 
 // Namespace should have "Kitchen" in the beginning
-namespace UITools
+namespace KitchenUITools
 {
     internal class Main : IModInitializer
     {

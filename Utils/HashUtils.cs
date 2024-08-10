@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace UITools.Utils
+namespace KitchenUITools.Utils
 {
     internal static class HashUtils
     {

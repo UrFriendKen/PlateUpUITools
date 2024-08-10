@@ -1,7 +1,7 @@
-﻿using UITools.Utils;
+﻿using KitchenUITools.Utils;
 using UnityEngine;
 
-namespace UITools
+namespace KitchenUITools
 {
     public abstract class BaseWindowController : MonoBehaviour
     {

@@ -2,9 +2,9 @@
 using KitchenData;
 using KitchenMods;
 using System.Collections.Generic;
-using UITools.Patches;
+using KitchenUITools.Patches;
 
-namespace UITools
+namespace KitchenUITools
 {
     public class RegisterStartDayWarningLocalisation : GenericSystemBase, IModSystem
     {

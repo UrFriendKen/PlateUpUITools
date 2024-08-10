@@ -2,10 +2,10 @@
 using KitchenData;
 using System;
 using System.Collections.Generic;
-using UITools.Patches;
+using KitchenUITools.Patches;
 using UnityEngine;
 
-namespace UITools
+namespace KitchenUITools
 {
     public static class UITools
     {

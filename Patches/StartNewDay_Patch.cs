@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using Kitchen;
 
-namespace UITools.Patches
+namespace KitchenUITools.Patches
 {
     [HarmonyPatch]
     static class StartNewDay_Patch

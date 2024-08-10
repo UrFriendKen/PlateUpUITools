@@ -3,7 +3,7 @@ using Kitchen;
 using System;
 using System.Collections.Generic;
 
-namespace UITools.Patches
+namespace KitchenUITools.Patches
 {
     public class StartDayWarningDefinition
     {
@@ -30,12 +30,9 @@ namespace UITools.Patches
 
         [HarmonyPatch(typeof(SStartDayWarnings), "Primary", MethodType.Getter)]
         [HarmonyPostfix]
-        static void Primary_Get_Postfix(ref StartDayWarning __result)
+        static void Primary_Get_Postfix(ref (StartDayWarning, WarningLevel) __result)
         {
-            if (__result != StartDayWarning.Ready && __result != StartDayWarning.PlayersNotReady)
-                return;
-
-            WarningLevel tempWarningLevel = WarningLevel.Safe;
+            WarningLevel tempWarningLevel = __result.Item2;
             foreach (StartDayWarningDefinition startDayWarningDefinition in CustomWarnings.Values)
             {
                 WarningLevel warningLevel = startDayWarningDefinition.CurrentWarningLevel;
@@ -43,7 +40,7 @@ namespace UITools.Patches
                     warningLevel > tempWarningLevel)
                 {
                     tempWarningLevel = warningLevel;
-                    __result = startDayWarningDefinition.ID;
+                    __result = (startDayWarningDefinition.ID, tempWarningLevel);
                     if (warningLevel == WarningLevel.Error)
                         break;
                 }

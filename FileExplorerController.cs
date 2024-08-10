@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-namespace UITools
+namespace KitchenUITools
 {
     internal class FileExplorerController : BaseWindowController
     {
