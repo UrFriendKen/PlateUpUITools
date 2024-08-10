@@ -56,7 +56,7 @@ namespace KitchenUITools
         }
 
         private static HashSet<StartDayWarning> _usedStartDayWarnings = new HashSet<StartDayWarning>();
-        public static StartDayWarningDefinition AddStartDayWarning(string displayText, string description, Func<WarningLevel> getCurrentWarningLevel)
+        public static StartDayWarningDefinition AddStartDayWarning(string displayText, string description, Func<WarningLevel> getCurrentWarningLevel, StartDayWarningDefinition.WarningPriority warningPriority = default)
         {
             if(_usedStartDayWarnings == null)
             {
@@ -66,7 +66,7 @@ namespace KitchenUITools
                     RegisterUsed(vanillaStartDayWarning);
                 }
             }
-            StartDayWarningDefinition startDayWarningDefinition = new StartDayWarningDefinition(displayText, description, getCurrentWarningLevel);
+            StartDayWarningDefinition startDayWarningDefinition = new StartDayWarningDefinition(displayText, description, getCurrentWarningLevel, warningPriority);
             int intID = 0;
             while (_usedStartDayWarnings.Contains((StartDayWarning)intID) || intID == 0)
             {
@@ -74,8 +74,7 @@ namespace KitchenUITools
             }
             startDayWarningDefinition.ID = (StartDayWarning)intID;
             RegisterUsed(startDayWarningDefinition.ID);
-            SStartDayWarnings_Patch.AddWarning(startDayWarningDefinition);
-            RegisterStartDayWarningLocalisation.Register(startDayWarningDefinition);
+            CustomStartDayWarningsRegistry.AddWarning(startDayWarningDefinition);
             return startDayWarningDefinition;
 
             bool RegisterUsed(StartDayWarning startDayWarning)

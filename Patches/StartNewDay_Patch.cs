@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Kitchen;
+using Unity.Entities;
 
 namespace KitchenUITools.Patches
 {
@@ -8,9 +9,9 @@ namespace KitchenUITools.Patches
     {
         [HarmonyPatch(typeof(StartNewDay), "OnUpdate")]
         [HarmonyPrefix]
-        static bool OnUpdate_Prefix()
+        static bool OnUpdate_Prefix(StartNewDay __instance)
         {
-            return !SStartDayWarnings_Patch.HighestWarningLevel.IsBlocking();
+            return !CustomStartDayWarningsRegistry.HighestWarningLevel.IsBlocking();
         }
     }
 }

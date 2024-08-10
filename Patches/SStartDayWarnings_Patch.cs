@@ -5,56 +5,36 @@ using System.Collections.Generic;
 
 namespace KitchenUITools.Patches
 {
-    public class StartDayWarningDefinition
-    {
-        internal StartDayWarning ID;
-        public string DisplayTitle;
-        public string Description;
-        internal WarningLevel CurrentWarningLevel => GetCurrentWarningLevel != default ? GetCurrentWarningLevel() : WarningLevel.Safe;
-        public Func<WarningLevel> GetCurrentWarningLevel;
-
-        public StartDayWarningDefinition(string displayText, string description, Func<WarningLevel> getCurrentWarningLevel)
-        {
-            DisplayTitle = displayText;
-            Description = description;
-            GetCurrentWarningLevel = getCurrentWarningLevel;
-        }
-    }
-
     [HarmonyPatch]
     internal static class SStartDayWarnings_Patch
     {
-        private static Dictionary<StartDayWarning, StartDayWarningDefinition> CustomWarnings = new Dictionary<StartDayWarning, StartDayWarningDefinition>();
+        [HarmonyPatch(typeof(SStartDayWarnings), "Primary", MethodType.Getter)]
+        [HarmonyPrefix]
+        [HarmonyPriority(int.MinValue)]
+        static bool Primary_Get_Prefix(bool __runOriginal, ref (StartDayWarning, WarningLevel) __result)
+        {
+            if (!__runOriginal)
+                return true;
 
-        internal static WarningLevel HighestWarningLevel = WarningLevel.Safe;
+            bool hasResult = CustomStartDayWarningsRegistry.TryGetActiveWarning(StartDayWarningDefinition.WarningPriority.High, out __result);
+            
+            if (!hasResult)
+                return true;
+            return __result.Item2.IsActive();
+        }
 
         [HarmonyPatch(typeof(SStartDayWarnings), "Primary", MethodType.Getter)]
         [HarmonyPostfix]
         static void Primary_Get_Postfix(ref (StartDayWarning, WarningLevel) __result)
         {
-            WarningLevel tempWarningLevel = __result.Item2;
-            foreach (StartDayWarningDefinition startDayWarningDefinition in CustomWarnings.Values)
-            {
-                WarningLevel warningLevel = startDayWarningDefinition.CurrentWarningLevel;
-                if (warningLevel.IsActive() &&
-                    warningLevel > tempWarningLevel)
-                {
-                    tempWarningLevel = warningLevel;
-                    __result = (startDayWarningDefinition.ID, tempWarningLevel);
-                    if (warningLevel == WarningLevel.Error)
-                        break;
-                }
-            }
-            HighestWarningLevel = tempWarningLevel;
-        }
+            if (__result.Item1 != StartDayWarning.PlayersNotReady)
+                return;
 
-        internal static void AddWarning(StartDayWarningDefinition startDayWarningDefinition)
-        {
-            if (!CustomWarnings.ContainsKey(startDayWarningDefinition.ID))
-            {
-                Main.LogWarning($"Added start day warning {startDayWarningDefinition.ID} ({startDayWarningDefinition.DisplayTitle})");
-                CustomWarnings.Add(startDayWarningDefinition.ID, startDayWarningDefinition);
-            }
+            bool hasResult = CustomStartDayWarningsRegistry.TryGetActiveWarning(StartDayWarningDefinition.WarningPriority.Normal, out (StartDayWarning, WarningLevel) tempResult);
+            if (!hasResult)
+                return;
+
+            __result = tempResult;
         }
     }
 }

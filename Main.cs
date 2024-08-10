@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Kitchen;
 using KitchenMods;
 using System.Reflection;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace KitchenUITools
     {
         public const string MOD_GUID = $"IcedMilo.PlateUp.{MOD_NAME}";
         public const string MOD_NAME = "UI Tools";
-        public const string MOD_VERSION = "0.1.1";
+        public const string MOD_VERSION = "0.1.2";
 
         //internal static StartDayWarningDefinition test;
 
@@ -23,7 +24,7 @@ namespace KitchenUITools
         public void PostActivate(KitchenMods.Mod mod)
         {
             LogWarning($"{MOD_GUID} v{MOD_VERSION} in use!");
-            //test = UITools.AddStartDayWarning("This is a test", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", () => WarningLevel.Error);
+            //UITools.AddStartDayWarning("This is a test", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", () => WarningLevel.Error);
         }
 
         public void PreInject()
