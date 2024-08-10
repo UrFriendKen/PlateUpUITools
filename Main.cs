@@ -10,7 +10,7 @@ namespace KitchenUITools
     {
         public const string MOD_GUID = $"IcedMilo.PlateUp.{MOD_NAME}";
         public const string MOD_NAME = "UI Tools";
-        public const string MOD_VERSION = "0.1.0";
+        public const string MOD_VERSION = "0.1.1";
 
         //internal static StartDayWarningDefinition test;
 
